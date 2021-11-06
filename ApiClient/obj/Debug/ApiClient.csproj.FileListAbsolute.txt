@@ -1,0 +1,8 @@
+D:\programming\uni\dotnet\Homework\ApiClient\bin\Debug\ApiClient.dll
+D:\programming\uni\dotnet\Homework\ApiClient\bin\Debug\ApiClient.pdb
+D:\programming\uni\dotnet\Homework\ApiClient\bin\Debug\Newtonsoft.Json.dll
+D:\programming\uni\dotnet\Homework\ApiClient\bin\Debug\Newtonsoft.Json.xml
+D:\programming\uni\dotnet\Homework\ApiClient\obj\Debug\ApiClient.csproj.CoreCompileInputs.cache
+D:\programming\uni\dotnet\Homework\ApiClient\obj\Debug\ApiClient.csproj.CopyComplete
+D:\programming\uni\dotnet\Homework\ApiClient\obj\Debug\ApiClient.dll
+D:\programming\uni\dotnet\Homework\ApiClient\obj\Debug\ApiClient.pdb

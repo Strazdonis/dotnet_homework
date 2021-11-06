@@ -1,0 +1,15 @@
+D:\programming\uni\dotnet\Homework\Homework\bin\Debug\Homework.exe.config
+D:\programming\uni\dotnet\Homework\Homework\bin\Debug\Homework.exe
+D:\programming\uni\dotnet\Homework\Homework\bin\Debug\Homework.pdb
+D:\programming\uni\dotnet\Homework\Homework\obj\Debug\Homework.csproj.AssemblyReference.cache
+D:\programming\uni\dotnet\Homework\Homework\obj\Debug\Homework.Form1.resources
+D:\programming\uni\dotnet\Homework\Homework\obj\Debug\Homework.Properties.Resources.resources
+D:\programming\uni\dotnet\Homework\Homework\obj\Debug\Homework.csproj.GenerateResource.cache
+D:\programming\uni\dotnet\Homework\Homework\obj\Debug\Homework.csproj.CoreCompileInputs.cache
+D:\programming\uni\dotnet\Homework\Homework\obj\Debug\Homework.exe
+D:\programming\uni\dotnet\Homework\Homework\obj\Debug\Homework.pdb
+D:\programming\uni\dotnet\Homework\Homework\bin\Debug\Newtonsoft.Json.dll
+D:\programming\uni\dotnet\Homework\Homework\bin\Debug\Newtonsoft.Json.xml
+D:\programming\uni\dotnet\Homework\Homework\obj\Debug\Homework.csproj.CopyComplete
+D:\programming\uni\dotnet\Homework\Homework\bin\Debug\ApiClient.dll
+D:\programming\uni\dotnet\Homework\Homework\bin\Debug\ApiClient.pdb

@@ -6,3 +6,4 @@ D:\programming\uni\dotnet\Homework\ApiClient\obj\Debug\ApiClient.csproj.CoreComp
 D:\programming\uni\dotnet\Homework\ApiClient\obj\Debug\ApiClient.csproj.CopyComplete
 D:\programming\uni\dotnet\Homework\ApiClient\obj\Debug\ApiClient.dll
 D:\programming\uni\dotnet\Homework\ApiClient\obj\Debug\ApiClient.pdb
+D:\programming\uni\dotnet\Homework\ApiClient\obj\Debug\ApiClient.csproj.AssemblyReference.cache

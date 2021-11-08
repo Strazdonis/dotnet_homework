@@ -41,8 +41,9 @@ namespace ApiClient
         {
             using (HttpClient client = new HttpClient())
             {
-                //TODO: get current time in ISO 8601 format and calculate time_start based on it.
-                string response = client.GetStringAsync(BASE_URL + HISTORY_URL.Replace("{asset_id_base}", asset_id) + "?apikey=" + API_KEY + "&time_start=2020-11-06T22:36:28.7440000Z&time_end=2021-11-06T22:36:28.7440000Z&period_id=7DAY").Result;
+                DateTime now = DateTime.UtcNow;
+                string lastYear = now.AddYears(-1).ToString("o", System.Globalization.CultureInfo.InvariantCulture);
+                string response = client.GetStringAsync(BASE_URL + HISTORY_URL.Replace("{asset_id_base}", asset_id) + "?apikey=" + API_KEY + "&time_start=" + lastYear + "&period_id=7DAY").Result;
 
                 var list = JsonConvert.DeserializeObject<List<HistoryModel>>(response);
                 return list;

@@ -43,8 +43,8 @@ namespace ApiClient
             {
                 DateTime now = DateTime.UtcNow;
                 string lastYear = now.AddYears(-1).ToString("o", System.Globalization.CultureInfo.InvariantCulture);
-                string response = client.GetStringAsync(BASE_URL + HISTORY_URL.Replace("{asset_id_base}", asset_id) + "?apikey=" + API_KEY + "&time_start=" + lastYear + "&period_id=7DAY").Result;
-
+                string url = BASE_URL + HISTORY_URL.Replace("{asset_id_base}", asset_id) + "?apikey=" + API_KEY + "&time_start=" + lastYear + "&period_id=7DAY";
+                string response = client.GetStringAsync(url).Result;
                 var list = JsonConvert.DeserializeObject<List<HistoryModel>>(response);
                 return list;
             }

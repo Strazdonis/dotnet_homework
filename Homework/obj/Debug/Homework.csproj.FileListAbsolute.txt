@@ -13,3 +13,4 @@ D:\programming\uni\dotnet\Homework\Homework\bin\Debug\Newtonsoft.Json.xml
 D:\programming\uni\dotnet\Homework\Homework\obj\Debug\Homework.csproj.CopyComplete
 D:\programming\uni\dotnet\Homework\Homework\bin\Debug\ApiClient.dll
 D:\programming\uni\dotnet\Homework\Homework\bin\Debug\ApiClient.pdb
+D:\programming\uni\dotnet\Homework\Homework\obj\Debug\Homework.Form2.resources

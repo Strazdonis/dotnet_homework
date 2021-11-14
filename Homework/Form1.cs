@@ -28,8 +28,9 @@ namespace Homework
             panel.HorizontalScroll.Maximum = 0;
             panel.AutoScroll = true;
 
-            panel.ColumnCount = 6;
+            panel.ColumnCount = 7;
             panel.RowCount = 1;
+            panel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 64F));
             panel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             panel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             panel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
@@ -38,30 +39,49 @@ namespace Homework
             // 1 more, empty column needs to be added. Otherwise column above ignores absolute sizetype and uses all the space available.
             panel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            panel.Controls.Add(new Label() { Text = "Name" }, 0, 0);
-            panel.Controls.Add(new Label() { Text = "Price" }, 1, 0);
-            panel.Controls.Add(new Label() { Text = "Hourly volume" }, 2, 0);
-            panel.Controls.Add(new Label() { Text = "Daily volume" }, 3, 0);
-            panel.Controls.Add(new Label() { Text = "Weekly volume" }, 4, 0);
-            panel.Controls.Add(new Label() { Text = "" }, 5, 0);
+            panel.Controls.Add(new Label() { Text = "Icon" }, 0, 0);
+            panel.Controls.Add(new Label() { Text = "Name" }, 1, 0);
+            panel.Controls.Add(new Label() { Text = "Price" }, 2, 0);
+            panel.Controls.Add(new Label() { Text = "Hourly volume" }, 3, 0);
+            panel.Controls.Add(new Label() { Text = "Daily volume" }, 4, 0);
+            panel.Controls.Add(new Label() { Text = "Weekly volume" }, 5, 0);
+            panel.Controls.Add(new Label() { Text = "" }, 6, 0);
 
             //panel.BackColor = Color.Red;
 
+
+
             int i = 0;
+            const int height = 80;
+            const int padding = height/4;
+            const int iconSize = 32;
+
+
+            IEnumerable<IconModel> icons = Fetch.FetchIcons(iconSize);
             foreach (CryptoModel crypto in Fetch.FetchCryptos())
             {
                 float h_volume = float.Parse(crypto.volume_1hrs_usd, CultureInfo.InvariantCulture);
+                // skip national currencies and dead cryptos
                 if (crypto.type_is_crypto == "0" || h_volume == 0) { continue; }
                 // show top 50 only
                 if (i++ == 49) { break; }
-                const int padding = 20;
-                const int height = 80;
+
                 panel.RowCount = panel.RowCount + 1;
+                PictureBox icon = new PictureBox();
+
+                // TODO: this approach is like N^2, idk what to do tho.
+                string icon_url = findIcon(crypto.asset_id, icons);
+                icon.ImageLocation = icon_url;
+                
+                icon.Height = 80;
+                icon.Padding = new System.Windows.Forms.Padding(0, padding, 0, padding);
+                icon.Margin = new System.Windows.Forms.Padding(0, (padding*2)-iconSize/4, 0, padding);
+                icon.Click += delegate (object sndr, EventArgs ev) { clickOnRow(sndr, ev, crypto.asset_id); };
 
                 Label nameLabel = new Label() { Text = crypto.name };
-                nameLabel.Height = 80;
-                nameLabel.Padding = new System.Windows.Forms.Padding(0, 20, 0, 20);
-                nameLabel.Margin = new System.Windows.Forms.Padding(0, 40, 0, 20);
+                nameLabel.Height = height;
+                nameLabel.Padding = new System.Windows.Forms.Padding(0, padding, 0, padding);
+                nameLabel.Margin = new System.Windows.Forms.Padding(0, padding*2, 0, padding);
                 // needed for borders to be displayed properly.
                 nameLabel.Click += delegate (object sndr, EventArgs ev) { clickOnRow(sndr, ev, crypto.asset_id); };
 
@@ -70,9 +90,9 @@ namespace Homework
 
                 Label priceLabel = new Label() { Text = price };
 
-                priceLabel.Height = 80;
-                priceLabel.Padding = new System.Windows.Forms.Padding(0, 20, 0, 20);
-                priceLabel.Margin = new System.Windows.Forms.Padding(0, 40, 0, 20);
+                priceLabel.Height = height;
+                priceLabel.Padding = new System.Windows.Forms.Padding(0, padding, 0, padding);
+                priceLabel.Margin = new System.Windows.Forms.Padding(0, padding*2, 0, padding);
 
                 priceLabel.Click += delegate (object sndr, EventArgs ev) { clickOnRow(sndr, ev, crypto.asset_id); };
 
@@ -80,9 +100,9 @@ namespace Homework
                 string volume_1hrs = ToKMBT(decimal.Parse(crypto.volume_1hrs_usd, CultureInfo.InvariantCulture));
                 Label volume_1hrs_label = new Label() { Text = volume_1hrs };
 
-                volume_1hrs_label.Height = 80;
-                volume_1hrs_label.Padding = new System.Windows.Forms.Padding(0, 20, 0, 20);
-                volume_1hrs_label.Margin = new System.Windows.Forms.Padding(0, 40, 0, 20);
+                volume_1hrs_label.Height = height;
+                volume_1hrs_label.Padding = new System.Windows.Forms.Padding(0, padding, 0, padding);
+                volume_1hrs_label.Margin = new System.Windows.Forms.Padding(0, padding*2, 0, padding);
 
                 volume_1hrs_label.Click += delegate (object sndr, EventArgs ev) { clickOnRow(sndr, ev, crypto.asset_id); };
 
@@ -90,9 +110,9 @@ namespace Homework
                 string volume_1day = ToKMBT(decimal.Parse(crypto.volume_1day_usd, CultureInfo.InvariantCulture));
                 Label volume_1day_label = new Label() { Text = volume_1day };
 
-                volume_1day_label.Height = 80;
-                volume_1day_label.Padding = new System.Windows.Forms.Padding(0, 20, 0, 20);
-                volume_1day_label.Margin = new System.Windows.Forms.Padding(0, 40, 0, 20);
+                volume_1day_label.Height = height;
+                volume_1day_label.Padding = new System.Windows.Forms.Padding(0, padding, 0, padding);
+                volume_1day_label.Margin = new System.Windows.Forms.Padding(0, padding*2, 0, padding);
 
                 volume_1day_label.Click += delegate (object sndr, EventArgs ev) { clickOnRow(sndr, ev, crypto.asset_id); };
 
@@ -100,13 +120,13 @@ namespace Homework
                 string volume_1mth = ToKMBT(decimal.Parse(crypto.volume_1mth_usd, CultureInfo.InvariantCulture));
                 Label volume_1mth_label = new Label() { Text = volume_1mth };
 
-                volume_1mth_label.Height = 80;
-                volume_1mth_label.Padding = new System.Windows.Forms.Padding(0, 20, 0, 20);
-                volume_1mth_label.Margin = new System.Windows.Forms.Padding(0, 40, 0, 20);
+                volume_1mth_label.Height = height;
+                volume_1mth_label.Padding = new System.Windows.Forms.Padding(0, padding, 0, padding);
+                volume_1mth_label.Margin = new System.Windows.Forms.Padding(0, padding*2, 0, padding);
 
                 volume_1mth_label.Click += delegate (object sndr, EventArgs ev) { clickOnRow(sndr, ev, crypto.asset_id); };
 
-                panel.Controls.AddRange(new Control[] { nameLabel, priceLabel, volume_1hrs_label, volume_1day_label, volume_1mth_label, new Label() { } });
+                panel.Controls.AddRange(new Control[] { icon, nameLabel, priceLabel, volume_1hrs_label, volume_1day_label, volume_1mth_label, new Label() { } });
 
             }
             panel.Location = new Point(10, 10);
@@ -134,12 +154,19 @@ namespace Homework
             var topLeft = rectangle.Location;
             var topRight = new Point(rectangle.Right, rectangle.Top);
            
-            if (e.Row > 0 && e.Column <5)
+            if (e.Row > 0 && e.Column < 6)
             {
                 // e.Graphics.DrawRectangle(new Pen(Color.FromArgb(255, 239, 242, 245)), rectangle);
                 e.Graphics.DrawLine(new Pen(Color.FromArgb(255, 239, 242, 245), 2), topLeft, topRight);
             }
                 
+        }
+
+        public static string findIcon(string asset_id, IEnumerable<IconModel> icons)
+        {
+            IconModel found = icons.SingleOrDefault(icon => icon.asset_id == asset_id);
+            if (found != null) return found.url;
+            return "";
         }
 
 

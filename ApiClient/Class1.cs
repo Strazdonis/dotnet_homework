@@ -15,6 +15,7 @@ namespace ApiClient
         private static readonly string BASE_URL = "http://rest.coinapi.io";
         private static readonly string ASSETS_URL = "/v1/assets";
         private static readonly string HISTORY_URL = "/v1/exchangerate/{asset_id_base}/USD/history";
+        private static readonly string ICON_URL = "/v1/assets/icons/";
         public static IList<CryptoModel> FetchCryptos()
         {
             using (HttpClient client = new HttpClient())
@@ -46,6 +47,18 @@ namespace ApiClient
                 string url = BASE_URL + HISTORY_URL.Replace("{asset_id_base}", asset_id) + "?apikey=" + API_KEY + "&time_start=" + lastYear + "&period_id=7DAY";
                 string response = client.GetStringAsync(url).Result;
                 var list = JsonConvert.DeserializeObject<List<HistoryModel>>(response);
+                return list;
+            }
+        }
+
+        public static IEnumerable<IconModel> FetchIcons(int size)
+        {
+
+            using (HttpClient client = new HttpClient())
+            {
+                string url = BASE_URL + ICON_URL + size + "?apikey=" + API_KEY;
+                string response = client.GetStringAsync(url).Result;
+                var list = JsonConvert.DeserializeObject<IEnumerable<IconModel>>(response);
                 return list;
             }
         }

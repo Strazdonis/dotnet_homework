@@ -47,6 +47,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="CryptoModel.cs" />
     <Compile Include="HistoryModel.cs" />
+    <Compile Include="IconModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

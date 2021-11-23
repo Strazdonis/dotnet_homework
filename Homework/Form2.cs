@@ -14,14 +14,21 @@ namespace Homework
 {
     public partial class Form2 : Form
     {
-
+        CryptoModel selectedCrypto = null;
         public Form2(string asset_id)
         {
 
             InitializeComponent();
             CryptoModel crypto = Fetch.FetchSingleCrypto(asset_id);
+            selectedCrypto = crypto;
             this.Text = crypto.name;
-            IList<HistoryModel> history = Fetch.FetchCryptoHistory(asset_id);
+            IList<HistoryModel> history = Fetch.FetchCryptoHistory(asset_id, "7DAY");
+            Console.WriteLine("Got data, starting rendering");
+            renderChart(history);
+        }
+
+        public void renderChart(IList<HistoryModel> data)
+        {
             var objChart = chart1.ChartAreas[0];
             objChart.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Auto;
             // 1 year
@@ -37,23 +44,26 @@ namespace Homework
             chart1.Series["Close rate"].BorderWidth = 2;
             chart1.Series["Close rate"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
 
-            double minimum = double.Parse(history[0].rate_close, CultureInfo.InvariantCulture);
+            double minimum = double.Parse(data[0].rate_close, CultureInfo.InvariantCulture);
             double maximum = 0;
-            foreach (HistoryModel h in history)
+            Console.WriteLine("Looping...");
+            foreach (HistoryModel h in data)
             {
                 DateTime date = DateTime.Parse(h.time_close);
-                
+
                 chart1.Series["Close rate"].Points.AddXY(date.ToShortDateString(), h.rate_close);
 
                 double close_rate = double.Parse(h.rate_close, CultureInfo.InvariantCulture);
                 if (close_rate < minimum)
                 {
                     minimum = close_rate;
-                } else if(close_rate > maximum)
+                }
+                else if (close_rate > maximum)
                 {
                     maximum = close_rate;
                 }
             }
+            Console.WriteLine("done looping");
             objChart.AxisY.Minimum = minimum;
             objChart.AxisY.Minimum = RoundFirstSignificantDigit(minimum, 3);
             objChart.AxisY.Maximum = RoundFirstSignificantDigit(maximum, 3);
@@ -71,11 +81,6 @@ namespace Homework
         }
 
         private void Form2_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
         {
 
         }

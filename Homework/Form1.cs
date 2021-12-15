@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows.Forms;
 using ApiClient;
 
-
 namespace Homework
 {
     public partial class Form1 : Form
@@ -17,6 +16,7 @@ namespace Homework
         }
 
         TableLayoutPanel panel = new TableLayoutPanel();
+        Cache history_cache = new Cache();
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -58,7 +58,6 @@ namespace Homework
             const int iconSize = 32;
 
             IEnumerable<IconModel> icons = Fetch.FetchIcons(iconSize);
-
             foreach (CryptoModel crypto in Fetch.FetchCryptos())
             {
                 float h_volume = float.Parse(crypto.volume_1hrs_usd, CultureInfo.InvariantCulture);
@@ -117,7 +116,7 @@ namespace Homework
 
         private void clickOnRow(object sender, EventArgs e, string asset_id)
         {
-            Form2 form2 = new Form2(asset_id);
+            Form2 form2 = new Form2(asset_id, history_cache);
             form2.ShowDialog();
             Console.WriteLine(asset_id);
         }

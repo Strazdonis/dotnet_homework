@@ -15,3 +15,7 @@ D:\programming\uni\dotnet\Homework\UnitTest\obj\Debug\UnitTests.csproj.CoreCompi
 D:\programming\uni\dotnet\Homework\UnitTest\obj\Debug\UnitTests.csproj.CopyComplete
 D:\programming\uni\dotnet\Homework\UnitTest\obj\Debug\UnitTest.dll
 D:\programming\uni\dotnet\Homework\UnitTest\obj\Debug\UnitTest.pdb
+D:\programming\uni\dotnet\Homework\UnitTest\obj\Debug\UnitTests.csproj.AssemblyReference.cache
+D:\programming\uni\dotnet\Homework\UnitTest\bin\Debug\Homework.exe
+D:\programming\uni\dotnet\Homework\UnitTest\bin\Debug\Homework.pdb
+D:\programming\uni\dotnet\Homework\UnitTest\bin\Debug\Homework.exe.config

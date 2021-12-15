@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ApiClient;
 
@@ -15,28 +10,71 @@ namespace Homework
     public partial class Form2 : Form
     {
         CryptoModel selectedCrypto = null;
-        public Form2(string asset_id)
+
+        Cache history_cache = null;
+        public Form2(string asset_id, Cache cache)
         {
 
             InitializeComponent();
             CryptoModel crypto = Fetch.FetchSingleCrypto(asset_id);
             selectedCrypto = crypto;
             this.Text = crypto.name;
-            IList<HistoryModel> history = Fetch.FetchCryptoHistory(asset_id, "7DAY");
+            history_cache = cache;
+            IList<HistoryModel> history = history_cache.FetchCryptoHistory(asset_id, "7DAY");
             Console.WriteLine("Got data, starting rendering");
             renderChart(history);
+            populateList(history);
+        }
+
+        public void populateList(IList<HistoryModel> data)
+        {
+            Decimal current = Decimal.Parse(data[data.Count - 1].rate_close);
+
+            // last 7 days
+            Decimal previous = Decimal.Parse(data[data.Count - 2].rate_close);
+            listBox1.Items.Add("7 Day: " + calculateChange(current, previous));
+
+            // last month
+            // 4 weeks = 1 month
+            previous = Decimal.Parse(data[data.Count - 5].rate_close);
+            listBox1.Items.Add("1 Month: " + calculateChange(current, previous));
+
+            // last 6 months
+            // 4 weeks = 1 month, 24 = 6 months
+            previous = Decimal.Parse(data[data.Count - 25].rate_close);
+            listBox1.Items.Add("6 Month: " + calculateChange(current, previous));
+
+            // 1 year
+            previous = Decimal.Parse(data[0].rate_close);
+            listBox1.Items.Add("Past year: " + calculateChange(current, previous));
+        }
+
+
+        public static string calculateChange(Decimal current, Decimal previous)
+        {
+            string result = current > previous ? "+":"-";
+            decimal difference;
+            if (current == previous)
+            {
+                result = "=0 %";
+            }
+            else
+            {
+                difference = Math.Abs(current - previous);
+                result += RoundFirstSignificantDigit((Double)(difference / previous) * 100, 4) + " %";
+            }
+            return result;
         }
 
         public void renderChart(IList<HistoryModel> data)
         {
             var objChart = chart1.ChartAreas[0];
             objChart.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Auto;
-            // 1 year
+
             objChart.AxisX.Minimum = 1;
-            objChart.AxisX.Maximum = 54;
+            objChart.AxisX.Maximum = data.Count;
 
             objChart.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            // loop history and find actual minimum?
 
             chart1.Series.Clear();
             chart1.Series.Add("Close rate");
@@ -63,8 +101,7 @@ namespace Homework
                     maximum = close_rate;
                 }
             }
-            Console.WriteLine("done looping");
-            objChart.AxisY.Minimum = minimum;
+            Console.WriteLine("done looping" + " " + minimum + " / " + maximum + " .... " + data.Count);
             objChart.AxisY.Minimum = RoundFirstSignificantDigit(minimum, 3);
             objChart.AxisY.Maximum = RoundFirstSignificantDigit(maximum, 3);
         }
@@ -83,6 +120,36 @@ namespace Homework
         private void Form2_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void handleClick(string period)
+        {
+            renderChart(history_cache.FetchCryptoHistory(selectedCrypto.asset_id, period));
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            handleClick("1DAY");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            handleClick("3DAY");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            handleClick("5DAY");
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            handleClick("7DAY");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            handleClick("10DAY");
         }
     }
 }
